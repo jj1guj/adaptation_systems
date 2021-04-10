@@ -69,7 +69,7 @@ if __name__ == "__main__":
 
         #TLEしていないか
         if end-start>600:
-            print(i,"TLE")
+            print(i,"TLE",end-start,"[sec]")
             status=False
             continue
 
@@ -81,18 +81,18 @@ if __name__ == "__main__":
         #print(repr(stdout))
         #print(len(weight),len(stdout))
         if len(weight)!=len(stdout):
-            print(i,"WA")
+            print(i,"WA",end-start,"[sec]")
             status=False
         
         for j in stdout:
             if j!="0" and j!="1":
-                print(i,j,"WA")
+                print(i,j,"WA",end-start,"[sec]")
                 status=False
                 break
         
         if status:
             score_all.append(scoring(weight,stdout))
-            print(i,score_all[-1])
+            print(i,score_all[-1],end-start,"[sec]")
         else:
             score_all.append(float('inf'))
         
