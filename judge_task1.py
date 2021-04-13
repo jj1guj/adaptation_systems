@@ -9,7 +9,6 @@
 import subprocess
 import time
 import os
-import re
 
 def scoring(weight,Ans):
     Sum=[0,0]
