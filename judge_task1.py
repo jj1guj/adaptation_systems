@@ -27,7 +27,8 @@ def exec_subprocess(cmd: str) -> (str, str, int):
                              stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = child.communicate()
     rt = child.returncode
-    return stdout.decode(), stderr.decode(), rt
+    return stdout.decode(), stderr.decode(),rt
+    #return stdout.decode(), stderr.decode(), rt
 
 if __name__ == "__main__":
     #windowsかUNIXかを取得(実行時に叩くコマンドが変わるため)
@@ -68,7 +69,8 @@ if __name__ == "__main__":
         #エスケープシーケンスを削除
         if osname=="nt":
             #あとで検証する
-            stdout=stdout[:-2]
+            L=stdout.split("\r")
+            stdout=L[0]
         """
         else:
             stdout=stdout[:-1]

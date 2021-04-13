@@ -54,7 +54,7 @@ if __name__ == "__main__":
             if j!="" and j[0]!="#":
                 stdout=j
         Ans[i]=stdout
-    Ans=[i[:-2] if osname=='nt' else i for i in Ans]
+    Ans=[i.split("\r")[0] if osname=='nt' else i for i in Ans]
 
     #得点を格納しておく
     score_all=[]
