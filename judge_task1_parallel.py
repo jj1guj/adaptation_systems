@@ -48,9 +48,13 @@ if __name__ == "__main__":
     Ans=[0 for i in range(len(testcases))]
     for i in range(len(procs)):
         stdout,stderr=procs[i].communicate()
-        Ans[i]=stdout.decode()
-    Ans=[i[:-2] if osname=='nt' else i[:-1] for i in Ans]
-    
+        stdout=stdout.decode()
+        L=stdout.split("\n")
+        for j in L:
+            if j!="" and j[0]!="#":
+                stdout=j
+        Ans[i]=stdout
+    Ans=[i[:-2] if osname=='nt' else i for i in Ans]
 
     #得点を格納しておく
     score_all=[]

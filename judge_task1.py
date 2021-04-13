@@ -61,11 +61,18 @@ if __name__ == "__main__":
         start=time.time()
         stdout, stderr, rt = exec_subprocess(cmd_str)
         end=time.time()
+        L=stdout.split("\n")
+        for j in L:
+            if  j!="" and j[0]!="#":
+                stdout=j
         #エスケープシーケンスを削除
         if osname=="nt":
+            #あとで検証する
             stdout=stdout[:-2]
+        """
         else:
             stdout=stdout[:-1]
+        """
 
         #TLEしていないか
         if end-start>600:
