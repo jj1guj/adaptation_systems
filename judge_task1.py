@@ -96,4 +96,4 @@ if __name__ == "__main__":
         else:
             score_all.append(float('inf'))
         
-print("score:",sum(score_all))
+    print("score:",sum(score_all))
