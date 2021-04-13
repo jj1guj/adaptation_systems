@@ -21,7 +21,7 @@ python make_dataset.py
 ```
 
 ## 課題1のジャッジ
-`judge_task1.py`, `judge_task1_parallel.py`, 作成したソースコード, 生成したテストケースのディレクトリ(`in`)をすべて同じ階層に入れるようにして下さい.  
+<del>`judge_task1.py`, `judge_task1_parallel.py`, 作成したソースコード, 生成したテストケースのディレクトリ(`in`)をすべて同じ階層に入れるようにして下さい.</del>確認はしていないですがオプション引数で適切に指定すれば動作すると思います  
 ```
 python judge_task1.py -s ジャッジしたいファイル名.c
 ```
