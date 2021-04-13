@@ -20,7 +20,7 @@ python make_dataset.py
 python judge_task1.py
 ```
 
-並列実行したい場合はこちら
+ジャッジを並列実行したい場合はこちら
 ```
 python judge_task1_parallel.py
 ```
