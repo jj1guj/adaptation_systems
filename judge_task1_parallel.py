@@ -6,6 +6,7 @@
 |- <in> (データセット)
     |- 0000.in
 """
+import argparse
 import subprocess
 import time
 import os
@@ -17,13 +18,19 @@ def scoring(weight,Ans):
     return abs(Sum[0]-Sum[1])
 
 if __name__ == "__main__":
+    #引数の設定
+    parser=argparse.ArgumentParser(description="judge task 1")
+    parser.add_argument("--path","-p",type=str,default="in",help="testcases' path")
+    parser.add_argument("--source","-s",type=str,help="sourcefile to judge",required=True)
+    args=parser.parse_args()
+
     #windowsかUNIXかを取得(実行時に叩くコマンドが変わるため)
     osname=os.name
     #ジャッジするコードのファイル名を入力してもらう
-    sourcefile=input("input sourcefile's name: ")
+    sourcefile=args.source
 
     #テストケースの取得
-    testcase_path="in/"
+    testcase_path=args.path
     files=os.listdir(testcase_path)
     testcases=[os.path.join(testcase_path,f) for f in files if os.path.isfile(os.path.join(testcase_path,f))]
     testcases.sort()
