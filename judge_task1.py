@@ -46,7 +46,7 @@ if __name__ == "__main__":
 
     #コンパイル
     #g++にしてるのはWindows系でgccを叩くとウイルスバスターが悪さをしてバイナリを消してしまうことがあるため
-    subprocess.run("g++ -o a_task1 -O2 "+sourcefile,shell=True)
+    subprocess.run("g++ -o a_task1 -O3 "+sourcefile,shell=True)
     
     #実行コマンドの指定
     if osname=="nt":
