@@ -13,11 +13,11 @@ import subprocess
 import time
 import os
 
-def scoring(weight,Ans):
-    Sum=[0,0]
+def scoring(weight,split_num,Ans):
+    Sum=[0 for i in range(split_num)]
     for i in range(len(weight)):
         Sum[int(Ans[i])]+=weight[i]
-    return abs(Sum[0]-Sum[1])
+    return max(Sum)-min(Sum)
 
 def exec_subprocess(cmd: str) -> (str, str, int):
     """
@@ -45,6 +45,8 @@ if __name__ == "__main__":
     osname=os.name
     #ジャッジするコードのファイル名を入力してもらう
     sourcefile=args.source
+    if not os.path.exists(sourcefile):
+        sys.exit()
 
     #テストケースの取得
     testcase_path=args.path
@@ -60,6 +62,13 @@ if __name__ == "__main__":
             with open(args.split_mode[1],mode="r") as f:
                 split_num=f.readlines()
             split_num=[int(i.replace("\n","")) for i in split_num]
+            if len(split_num)<len(testcases):
+                sys.exit()
+        elif not os.path.exists(args.split_mode[1]):
+            #なかったらランダムに作る
+            split_num=[random.randint(2,16) for i in range(len(testcases))]
+            with open(args.split_mode[1],mode="w") as f:
+                f.write("\n".join(map(str,split_num)))
         else:
             sys.exit()
     elif args.split_mode[0]=="n" and len(args.split_mode)==2 and args.split_mode[1].isdecimal():
@@ -75,7 +84,7 @@ if __name__ == "__main__":
 
     #コンパイル
     #g++にしてるのはWindows系でgccを叩くとウイルスバスターが悪さをしてバイナリを消してしまうことがあるため
-    subprocess.run("g++ -o a_task1 -O3 "+sourcefile,shell=True)
+    subprocess.run("g++ -o a_task2 -O3 "+sourcefile,shell=True)
     
     #実行コマンドの指定
     if osname=="nt":
@@ -97,13 +106,8 @@ if __name__ == "__main__":
                 stdout=j
         #エスケープシーケンスを削除
         if osname=="nt":
-            #あとで検証する
             L=stdout.split("\r")
             stdout=L[0]
-        """
-        else:
-            stdout=stdout[:-1]
-        """
 
         #TLEしていないか
         if end-start>600:
@@ -121,22 +125,25 @@ if __name__ == "__main__":
             status=False
         
         dic={"A":10,"B":11,"C":12,"D":13,"E":14,"F":15}
+        Ans=[]
         for j in stdout:
             if j in dic:
                 num=dic[j]
             elif not j.isdecimal():
+                print(i,j,"WA",end-start,"[sec]")
                 status=False
                 break
             else:
                 num=int(j)
-
+            
             if num<0 and num>=split_num[case]:
                 print(i,j,"WA",end-start,"[sec]")
                 status=False
                 break
+            Ans.append(num)
         
         if status:
-            score_all.append(scoring(weight,stdout))
+            score_all.append(scoring(weight,split_num[case],Ans))
             print(i,score_all[-1],end-start,"[sec]")
         else:
             score_all.append(float('inf'))
