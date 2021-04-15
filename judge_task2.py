@@ -88,9 +88,9 @@ if __name__ == "__main__":
     
     #実行コマンドの指定
     if osname=="nt":
-        cmd_prefix=".\\a_task1 "
+        cmd_prefix=".\\a_task2 "
     else:
-        cmd_prefix="./a_task1 "
+        cmd_prefix="./a_task2 "
 
     for case in range(len(testcases)):
         i=testcases[case]
