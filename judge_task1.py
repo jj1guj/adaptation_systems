@@ -77,13 +77,8 @@ if __name__ == "__main__":
                 stdout=j
         #エスケープシーケンスを削除
         if osname=="nt":
-            #あとで検証する
             L=stdout.split("\r")
             stdout=L[0]
-        """
-        else:
-            stdout=stdout[:-1]
-        """
 
         #TLEしていないか
         if end-start>600:
