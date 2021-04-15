@@ -21,7 +21,7 @@ def scoring(weight,split_num,Ans):
 
 if __name__ == "__main__":
     #引数の設定
-    parser=argparse.ArgumentParser(description="judge task 1")
+    parser=argparse.ArgumentParser(description="judge task 2")
     parser.add_argument("--path","-p",type=str,default="in",help="testcases' path")
     parser.add_argument("--source","-s",type=str,help="sourcefile to judge",required=True)
     parser.add_argument("--split_mode","-m",nargs='*',default="r",
