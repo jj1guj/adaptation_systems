@@ -62,7 +62,8 @@ if __name__ == "__main__":
             with open(args.split_mode[1],mode="r") as f:
                 split_num=f.readlines()
             split_num=[int(i.replace("\n","")) for i in split_num]
-            if len(split_num)<len(testcases):
+            l=[i for i in split_num if i<2 and i>16]
+            if len(split_num)<len(testcases) or len(l)>0:
                 sys.exit()
         elif not os.path.exists(args.split_mode[1]):
             #なかったらランダムに作る
