@@ -93,8 +93,6 @@ if __name__ == "__main__":
         weight=[float(j.replace("\n","")) for j in weight]
 
         #出力形式が一致しているか確認する
-        #print(repr(stdout))
-        #print(len(weight),len(stdout))
         if len(weight)!=len(stdout):
             print(i,"WA",end-start,"[sec]")
             status=False
