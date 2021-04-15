@@ -7,6 +7,8 @@
     |- 0000.in
 """
 import argparse
+import random
+import sys
 import subprocess
 import time
 import os
@@ -35,6 +37,8 @@ if __name__ == "__main__":
     parser=argparse.ArgumentParser(description="judge task 1")
     parser.add_argument("--path","-p",type=str,default="in",help="testcases' path")
     parser.add_argument("--source","-s",type=str,help="sourcefile to judge",required=True)
+    parser.add_argument("--split_mode","-m",nargs='*',default="r",
+    help="specify split mode. r: random, f [filename]: use file, n [number]: all testcases will be splited [number]")
     args=parser.parse_args()
 
     #windowsかUNIXかを取得(実行時に叩くコマンドが変わるため)
@@ -47,7 +51,25 @@ if __name__ == "__main__":
     files=os.listdir(testcase_path)
     testcases=[os.path.join(testcase_path,f) for f in files if os.path.isfile(os.path.join(testcase_path,f))]
     testcases.sort()
-    
+
+    #分割数の指定
+    if args.split_mode[0]=="r":
+        split_num=[random.randint(2,16) for i in range(len(testcases))]
+    elif args.split_mode[0]=="f":
+        if len(args.split_mode)==2 and os.path.exists(args.split_mode[1]):
+            with open(args.split_mode[1],mode="r") as f:
+                split_num=f.readlines()
+            split_num=[int(i.replace("\n","")) for i in split_num]
+        else:
+            sys.exit()
+    elif args.split_mode[0]=="n" and len(args.split_mode)==2 and args.split_mode[1].isdecimal():
+        if int(args.split_mode[1])>=2 and int(args.split_mode[1])<=16:
+            split_num=[int(args.split_mode[1]) for i in range(len(testcases))]
+        else:
+            sys.exit()
+    else:
+        sys.exit()
+
     #得点を格納しておく
     score_all=[]
 
@@ -61,10 +83,11 @@ if __name__ == "__main__":
     else:
         cmd_prefix="./a_task1 "
 
-    for i in testcases:
+    for case in range(len(testcases)):
+        i=testcases[case]
         status=True
 
-        cmd_str=cmd_prefix+i
+        cmd_str=cmd_prefix+" "+str(split_num[case])+" "+i
         start=time.time()
         stdout, stderr, rt = exec_subprocess(cmd_str)
         end=time.time()
@@ -93,14 +116,21 @@ if __name__ == "__main__":
         weight=[float(j.replace("\n","")) for j in weight]
 
         #出力形式が一致しているか確認する
-        #print(repr(stdout))
-        #print(len(weight),len(stdout))
         if len(weight)!=len(stdout):
             print(i,"WA",end-start,"[sec]")
             status=False
         
+        dic={"A":10,"B":11,"C":12,"D":13,"E":14,"F":15}
         for j in stdout:
-            if j!="0" and j!="1":
+            if j in dic:
+                num=dic[j]
+            elif not j.isdecimal():
+                status=False
+                break
+            else:
+                num=int(j)
+
+            if num<0 and num>=split_num[case]:
                 print(i,j,"WA",end-start,"[sec]")
                 status=False
                 break
