@@ -8,6 +8,7 @@
 """
 import argparse
 import subprocess
+import sys
 import time
 import os
 
@@ -41,6 +42,8 @@ if __name__ == "__main__":
     osname=os.name
     #ジャッジするコードのファイル名を入力してもらう
     sourcefile=args.source
+    if not os.path.exists(sourcefile):
+        sys.exit()
 
     #テストケースの取得
     testcase_path=args.path
