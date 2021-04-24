@@ -24,10 +24,18 @@ path=args.path#吐き出し先のパス
 if not os.path.isdir(path):
     os.makedirs(path)
 
+def reduce_digit(s):
+    for i in reversed(range(len(s))):
+        if s[i] == '0':
+            s = s[:i]
+        else:
+            break
+    return s
+
 for d in range(datasets):
     N=random.randint(min(args.data_min,args.data_max),max(args.data_min,args.data_max))
-    A=[str(random.uniform(min_val,max_val)) for i in range(N)]
-    A=[i if i[-1]!="." else i.replace(".","") for i in A]
+    A=[str('0.' + ''.join(str(random.randint(0, 9)) for _ in range(30))) for i in range(N)]
+    A=[reduce_digit(i) for i in A]
     filename=os.path.join(path,str(d+args.seed).zfill(4)+".in")
     with open(filename,mode='w') as f:
         f.write("\n".join(A))
