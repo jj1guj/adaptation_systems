@@ -30,11 +30,24 @@ def reduce_digit(s):
             s = s[:i]
         else:
             break
+    if s[-1]==".":
+        s=s[:-1]
     return s
 
 for d in range(datasets):
     N=random.randint(min(args.data_min,args.data_max),max(args.data_min,args.data_max))
-    A=[str('0.' + ''.join(str(random.randint(0, 9)) for _ in range(30))) for i in range(N)]
+    #30桁の乱数を生成
+    A=[]
+    for i in range(N):
+        #整数部を生成(min<=x<=max)
+        x=random.randint(args.min,args.max)
+        xdigits=len(str(x))
+        if x<0:
+            xdigits-=1
+        if x==args.max:
+            A.append(str(x)+"."+''.join("0" for _ in range(30-xdigits)))
+        else:
+            A.append(str(x)+"."+''.join(str(random.randint(0, 9)) for _ in range(30-xdigits)))
     A=[reduce_digit(i) for i in A]
     filename=os.path.join(path,str(d+args.seed).zfill(4)+".in")
     with open(filename,mode='w') as f:
